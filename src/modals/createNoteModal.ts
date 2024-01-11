@@ -1,15 +1,6 @@
-import { App, ColorComponent, ExtraButtonComponent, Modal, Setting } from "obsidian";
+import { App, Notice, Modal, Setting } from "obsidian";
 
-/*
-interface PDF {
-    title: string;
-    type: string;
-    format: string;
-    orientation: string;
-    path: string;
-}*/
-
-export class createPDFModal extends Modal {
+export class createNoteModal extends Modal {
     title: string;
     type: string;
     orientation: string;
@@ -29,7 +20,7 @@ export class createPDFModal extends Modal {
           .setName("Title:")
           .addText((text) =>
             text.onChange((value) => {
-              this.title = value
+                this.title = value
             }));
 
         new Setting(contentEl)
@@ -70,8 +61,12 @@ export class createPDFModal extends Modal {
               .setButtonText("Submit")
               .setCta()
               .onClick(() => {
-                this.close();
-                this.onSubmit(this.title, this.type, this.orientation);
+                if(this.title == undefined) {
+                  new Notice("Title cannot be empty")
+                } else {
+                  this.close();
+                  this.onSubmit(this.title, this.type, this.orientation);
+                }
               }));
       }
     
