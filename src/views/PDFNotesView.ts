@@ -1,9 +1,9 @@
-import { ItemView, WorkspaceLeaf } from "obsidian";
+import { FileView, TFile, WorkspaceLeaf } from "obsidian";
 import { decodeBinary, encodeBinary } from "src/utils";
 
 export const VIEW_TYPE_PDFNOTES = "pdfnotes-view";
 
-export class PDFNotesView extends ItemView {
+export class PDFNotesView extends FileView {
 
     constructor(leaf: WorkspaceLeaf) {
         super(leaf);
@@ -20,7 +20,10 @@ export class PDFNotesView extends ItemView {
     async onOpen() {
         const container = this.containerEl.children[1];
         container.empty();
-    
+        
+        container.createEl("h1", {text: "Notes View!"} )
+
+        /*
         const canvas = container.createEl("canvas", {
             attr: {
                 id: "the-canvas"
@@ -28,6 +31,7 @@ export class PDFNotesView extends ItemView {
             cls: "the-canvas"
         });
     
+        
         // Set canvas size to A4 paper size in pixels
         const a4WidthInPixels = 595; // A4 width in pixels (assuming 1mm = 1 pixel)
         const a4HeightInPixels = 842; // A4 height in pixels
@@ -58,13 +62,12 @@ export class PDFNotesView extends ItemView {
 
             this.app.vault.modifyBinary(activeFile, encodeBinary(data));
         } 
+        */
     }
     
     
  
     async onClose() {
         // Nothing to clean up.
-    }
-
-    
+    }    
 }

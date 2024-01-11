@@ -2,7 +2,7 @@ import { normalizePath, Notice, TFile } from "obsidian";
 import { createNoteModal } from "./modals/createNoteModal";
 
 
-export async function createPDF(filePath: string) {
+export async function createNote(filePath: string) {
 
 
     new createNoteModal(this.app, async (title, type, orientation) => {

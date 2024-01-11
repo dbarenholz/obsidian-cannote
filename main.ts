@@ -1,5 +1,5 @@
 import { normalizePath, Notice, Plugin, TFile, TFolder, View, WorkspaceLeaf } from 'obsidian';
-import { createPDF, replaceLastSegment } from 'src/utils';
+import { createNote, replaceLastSegment } from 'src/utils';
 import { PDFNotesView, VIEW_TYPE_PDFNOTES } from 'src/views/PDFNotesView';
 
 
@@ -19,9 +19,9 @@ export default class PDFNotes extends Plugin {
 			const curretFile = this.app.workspace.getActiveFile();
 			if(curretFile != null) {
 				const currentFilePath = replaceLastSegment(curretFile.path);
-				createPDF(currentFilePath);
+				createNote(currentFilePath);
 			} else {
-				createPDF(normalizePath("/"));
+				createNote(normalizePath("/"));
 			}
 		})
 
@@ -29,20 +29,22 @@ export default class PDFNotes extends Plugin {
 			if(file instanceof TFolder) {
 				menu.addItem((item) => {
 					item.setTitle("Create new Drawing");
-					item.setSection("PDF-Notes");
+					item.setSection("Notes");
 					item.setIcon("pen")
 					item.onClick(async () => {
-						//Creates new PDF-File
-						createPDF(file.path);
+						createNote(file.path);
 					});
 				});
 			} 
 
 			if(file instanceof TFile) {
-				if(file.extension == 'pdf') {
+
+				file == null ? console.log(null) : console.log(file);
+
+				if(file.extension == 'pdfnotes') {
 					menu.addItem((item) => {
 						item.setTitle("Edit Drawing");
-						item.setSection("PDF-Notes");
+						item.setSection("Notes");
 						item.setIcon("pen")
 						item.onClick(async () => {
 							//Creates new PDF-File
@@ -53,29 +55,13 @@ export default class PDFNotes extends Plugin {
 			}
 		});
 
-		/*
-		this.addCommand({
-			id: 'add new page',
-			name: 'Add a new Page at the bottom of the file',
-			checkCallback: (checking: boolean) => {
-				const currentFile = this.app.workspace.getActiveFile();
-				if(currentFile) {
-					if(!checking) {
-						if(currentFile.extension == 'pdf') {
-							addNewPDFPage(currentFile)
-							return true;
-						} 
-					}
-				}
-				return false;
+		this.app.workspace.on("file-open", (file) => {
+			console.log("FILE OPEN: " + file?.basename)
+			if(file != null && file.extension == "pdfnotes") {
+				this.activateView();
 			}
-		});
-		*/
+		})		
 	}
-
-
-	/*
-	FROM OBSIDIAN DOCUMENTATION OF "VIEWS"
 
 	async activateView() {
 		const { workspace } = this.app;
@@ -96,5 +82,5 @@ export default class PDFNotes extends Plugin {
 		// "Reveal" the leaf in case it is in a collapsed sidebar
 		workspace.revealLeaf(leaf);
 	  }
-	  */
+
 }
