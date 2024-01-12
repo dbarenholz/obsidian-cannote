@@ -1,4 +1,5 @@
-import { normalizePath, Notice, Plugin, TFile, TFolder, View, WorkspaceLeaf } from 'obsidian';
+import { normalizePath, Plugin, TFile, TFolder, WorkspaceLeaf } from 'obsidian';
+import { drawCanvas, readNoteFile } from 'src/DrawingCanvas';
 import { createNote, replaceLastSegment } from 'src/utils';
 import { PDFNotesView, VIEW_TYPE_PDFNOTES } from 'src/views/PDFNotesView';
 
@@ -9,7 +10,7 @@ export default class PDFNotes extends Plugin {
 
 		this.registerView(
 			VIEW_TYPE_PDFNOTES,
-			(leaf) => new PDFNotesView(leaf)
+			(leaf) => new PDFNotesView(leaf),
 		);
 
 		this.registerExtensions(["pdfnotes"], VIEW_TYPE_PDFNOTES);
@@ -39,8 +40,6 @@ export default class PDFNotes extends Plugin {
 
 			if(file instanceof TFile) {
 
-				file == null ? console.log(null) : console.log(file);
-
 				if(file.extension == 'pdfnotes') {
 					menu.addItem((item) => {
 						item.setTitle("Edit Drawing");
@@ -55,14 +54,21 @@ export default class PDFNotes extends Plugin {
 			}
 		});
 
-		this.app.workspace.on("file-open", (file) => {
-			console.log("FILE OPEN: " + file?.basename)
+		this.app.workspace.on("file-open", async (file)  => {
 			if(file != null && file.extension == "pdfnotes") {
-				this.activateView();
+				this.activateView();	
+
+				const view = this.app.workspace.getLeavesOfType(VIEW_TYPE_PDFNOTES)[0];
+				if (view != null) {
+					await readNoteFile();
+					await drawCanvas();
+				}
 			}
-		})		
+		})
+
 	}
 
+	
 	async activateView() {
 		const { workspace } = this.app;
 	
@@ -82,5 +88,5 @@ export default class PDFNotes extends Plugin {
 		// "Reveal" the leaf in case it is in a collapsed sidebar
 		workspace.revealLeaf(leaf);
 	  }
-
+	
 }

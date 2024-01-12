@@ -1,5 +1,7 @@
 import { FileView, TFile, WorkspaceLeaf } from "obsidian";
-import { decodeBinary, encodeBinary } from "src/utils";
+import { createElement, readNoteFile } from "src/DrawingCanvas";
+import { NoteElement } from "src/interfaces/NoteElement";
+import { handleMouseDown, handleMouseMove, handleMouseUp } from "src/DrawingCanvas";
 
 export const VIEW_TYPE_PDFNOTES = "pdfnotes-view";
 
@@ -17,57 +19,44 @@ export class PDFNotesView extends FileView {
         return "Note";
     }
 
-    async onOpen() {
-        const container = this.containerEl.children[1];
-        container.empty();
+    async onOpen() { 
         
-        container.createEl("h1", {text: "Notes View!"} )
-
-        /*
-        const canvas = container.createEl("canvas", {
-            attr: {
-                id: "the-canvas"
-            },
-            cls: "the-canvas"
-        });
+        this.app.workspace.onLayoutReady(() => {
+            const container = this.containerEl.children[1];
+            container.empty();
     
-        
-        // Set canvas size to A4 paper size in pixels
-        const a4WidthInPixels = 595; // A4 width in pixels (assuming 1mm = 1 pixel)
-        const a4HeightInPixels = 842; // A4 height in pixels
+            const canvas = container.createEl("canvas", {
+                attr: {
+                    id: "note-canvas",
+                },
+                cls: "note-canvas", 
+            });
     
-        canvas.width = a4WidthInPixels;
-        canvas.height = a4HeightInPixels;
-
-        const activeFile = this.app.workspace.getActiveFile();
-        console.log(activeFile)
-        
-        if(activeFile != null) {
-            const fileDataBinary = await this.app.vault.readBinary(activeFile);
-            const fileData = decodeBinary(fileDataBinary);
-
-            var context = null;
-
-            if(fileData.context != null) {
-                context = fileData.context;
-            } else {
-                context = canvas.getContext("2d");
-            }
-
-            const data = {
-                context: context, 
-                orientation: fileData.orientation,
-                type: fileData.orientation
-            };
-
-            this.app.vault.modifyBinary(activeFile, encodeBinary(data));
-        } 
-        */
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+    
+            canvas.addEventListener('mousedown', mouseDown)
+            canvas.addEventListener('mousemove', mouseMove)
+            canvas.addEventListener('mouseup', mouseUp)
+        })
     }
-    
-    
- 
+
     async onClose() {
-        // Nothing to clean up.
-    }    
+       
+    }
+          
+}
+
+function mouseDown(event : MouseEvent) {
+    handleMouseDown(event);
+}
+
+
+function mouseMove(event : MouseEvent) {
+    handleMouseMove(event);
+}
+
+
+function mouseUp (event : MouseEvent) {
+    handleMouseUp(event);
 }
