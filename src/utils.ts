@@ -1,5 +1,5 @@
 import { normalizePath, Notice } from "obsidian";
-import { createNoteModal } from "./modals/CreateNoteModal";
+import { createNoteModal } from "./modals/createNoteModal";
 import { Note } from "./interfaces/Note";
 
 export async function createNote(filePath: string) {
