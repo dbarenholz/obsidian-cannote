@@ -1,9 +1,10 @@
 import rough from "roughjs";
 import { NoteElement } from "./interfaces/NoteElement";
-import { Note } from "./interfaces/note";
+import { Note } from "./interfaces/Note";
 
 const generator = rough.generator();
 var drawing : boolean = false;
+var colorInput : HTMLInputElement | null = null;
 
 var note : Note = {
     orientation: "",
@@ -18,8 +19,12 @@ export async function drawCanvas() {
     const context = canvas.getContext("2d");
     context?.clearRect(0, 0, canvas.width, canvas.height);
 
+    colorInput = document.getElementById("color-input") as HTMLInputElement;
+    
+
     if (context) {
         const roughCanvas = rough.canvas(canvas);
+
         note.elements.forEach((element) => roughCanvas.draw(element.canvasElement));
 
         await modifiyNoteFile();
@@ -27,11 +32,16 @@ export async function drawCanvas() {
     } else {
         console.error("Unable to get 2D context for canvas");
     }
+    
 }
 
 export function createElement(x1: number, y1: number, x2: number, y2: number) : NoteElement {
 
-    const canvasElement = generator.line(x1, y1, x2, y2);
+    const canvasElement = generator.line(x1, y1, x2, y2, {
+        stroke: colorInput == null ? "#000000" : colorInput.value,
+        strokeWidth: 2
+    });
+
     return {x1, y1, x2, y2, canvasElement}
 }
 

@@ -1,7 +1,7 @@
 import { normalizePath, Plugin, TFile, TFolder, WorkspaceLeaf } from 'obsidian';
 import { drawCanvas, readNoteFile } from 'src/DrawingCanvas';
 import { createNote, replaceLastSegment } from 'src/utils';
-import { PDFNotesView, VIEW_TYPE_PDFNOTES } from 'src/views/PDFNotesView';
+import { NotesView, VIEW_TYPE_NOTES } from 'src/views/NotesView';
 
 
 export default class PDFNotes extends Plugin {
@@ -9,11 +9,11 @@ export default class PDFNotes extends Plugin {
 	onload() {
 
 		this.registerView(
-			VIEW_TYPE_PDFNOTES,
-			(leaf) => new PDFNotesView(leaf),
+			VIEW_TYPE_NOTES,
+			(leaf) => new NotesView(leaf),
 		);
 
-		this.registerExtensions(["pdfnotes"], VIEW_TYPE_PDFNOTES);
+		this.registerExtensions(["pdfnotes"], VIEW_TYPE_NOTES);
 
 		this.addRibbonIcon('file', 'Create new PDF', () => {
 
@@ -58,7 +58,7 @@ export default class PDFNotes extends Plugin {
 			if(file != null && file.extension == "pdfnotes") {
 				this.activateView();	
 
-				const view = this.app.workspace.getLeavesOfType(VIEW_TYPE_PDFNOTES)[0];
+				const view = this.app.workspace.getLeavesOfType(VIEW_TYPE_NOTES)[0];
 				if (view != null) {
 					await readNoteFile();
 					await drawCanvas();
@@ -73,7 +73,7 @@ export default class PDFNotes extends Plugin {
 		const { workspace } = this.app;
 	
 		let leaf: WorkspaceLeaf | null = null;
-		const leaves = workspace.getLeavesOfType(VIEW_TYPE_PDFNOTES);
+		const leaves = workspace.getLeavesOfType(VIEW_TYPE_NOTES);
 	
 		if (leaves.length > 0) {
 		  // A leaf with our view already exists, use that
@@ -82,7 +82,7 @@ export default class PDFNotes extends Plugin {
 		  // Our view could not be found in the workspace, create a new leaf
 		  // in the right sidebar for it
 		  leaf = workspace.getRightLeaf(false);
-		  await leaf.setViewState({ type: VIEW_TYPE_PDFNOTES, active: true });
+		  await leaf.setViewState({ type: VIEW_TYPE_NOTES, active: true });
 		}
 	
 		// "Reveal" the leaf in case it is in a collapsed sidebar
