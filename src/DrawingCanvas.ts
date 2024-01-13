@@ -20,7 +20,6 @@ export async function drawCanvas() {
     context?.clearRect(0, 0, canvas.width, canvas.height);
 
     colorInput = document.getElementById("color-input") as HTMLInputElement;
-    
 
     if (context) {
         const roughCanvas = rough.canvas(canvas);
@@ -58,6 +57,12 @@ export async function modifiyNoteFile() {
     await this.app.vault.modify(activeFile, JSON.stringify(note));
 }
 
+export async function clearNoteFile() {
+    note.elements = [];
+    await modifiyNoteFile();
+    await drawCanvas();
+}
+
 export function handleMouseDown(event : MouseEvent) {
     drawing = true;
 
@@ -87,4 +92,8 @@ export function handleMouseMove(event : MouseEvent) {
 
 export function handleMouseUp(event : MouseEvent) {
     drawing = false;
+}
+
+export async function handleResetCanvas(event: MouseEvent) {
+    await clearNoteFile();
 }

@@ -10,6 +10,18 @@ If your plugin does not need CSS, delete this file.
 
 .note-canvas {
     border: 1px solid black;
-    margin: 0%;
-    padding: 0%;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    justify-content: center;
+}
+
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.item {
+    margin: 0 10px; /* Adjust the margin as needed */
 }

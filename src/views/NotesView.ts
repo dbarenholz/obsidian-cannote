@@ -1,7 +1,7 @@
 import { FileView, TFile, WorkspaceLeaf } from "obsidian";
 import { createElement, readNoteFile } from "src/DrawingCanvas";
 import { NoteElement } from "src/interfaces/NoteElement";
-import { handleMouseDown, handleMouseMove, handleMouseUp } from "src/DrawingCanvas";
+import { handleMouseDown, handleMouseMove, handleMouseUp, handleResetCanvas } from "src/DrawingCanvas";
 
 export const VIEW_TYPE_NOTES = "notes-view";
 
@@ -33,7 +33,7 @@ export class NotesView extends FileView {
             });
 
             const colorDiv = toolbarDiv.createDiv({
-                cls: "color",
+                cls: "item",
                 attr: {
                     id: "color"
                 }
@@ -49,7 +49,7 @@ export class NotesView extends FileView {
             })
 
             const lineDiv = toolbarDiv.createDiv({
-                cls: "line",
+                cls: "item",
                 attr: {
                     id: "line"
                 }
@@ -70,7 +70,7 @@ export class NotesView extends FileView {
             });
 
             const rectangleDiv = toolbarDiv.createDiv({
-                cls: "rectangle",
+                cls: "item",
                 attr: {
                     id: "rectangle"
                 }
@@ -91,7 +91,7 @@ export class NotesView extends FileView {
             });
 
             const pencilDvi = toolbarDiv.createDiv({
-                cls: "pencil",
+                cls: "item",
                 attr: {
                     id: "pencil"
                 }
@@ -111,17 +111,25 @@ export class NotesView extends FileView {
                 text: "Pencil",
             });
 
+            const resetCanvasButton = toolbarDiv.createEl("button", {
+                cls: "reset-canvas",
+                text: "Clear Drawings",
+                attr: {
+                    id: "reset-button"
+                }
+            })
+
+            resetCanvasButton.addEventListener("click", resetCanvas)
     
             const canvas = container.createEl("canvas", {
                 cls: "note-canvas", 
                 attr: {
                     id: "note-canvas",
-                }
+                    width: 800,
+                    height: 800,
+                },
             });
-    
-            canvas.width = 900;
-            canvas.height = 900;
-    
+
             canvas.addEventListener('mousedown', mouseDown)
             canvas.addEventListener('mousemove', mouseMove)
             canvas.addEventListener('mouseup', mouseUp)
@@ -146,4 +154,8 @@ function mouseMove(event : MouseEvent) {
 
 function mouseUp (event : MouseEvent) {
     handleMouseUp(event);
+}
+
+function resetCanvas (event : MouseEvent) {
+    handleResetCanvas(event);
 }
