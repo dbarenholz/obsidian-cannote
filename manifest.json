@@ -1,9 +1,9 @@
 {
-	"id": "sample-plugin",
-	"name": "PDF Notes",
-	"version": "1.0.0",
+	"id": "obsidian-cannote",
+	"name": "CanNote",
+	"version": "0.0.1",
 	"minAppVersion": "0.15.0",
-	"description": "Annotate PDF Files",
+	"description": "Annotate PDF Files in a HTML Canvas",
 	"author": "Tobias Kathan",
 	"authorUrl": "https://obsidian.md",
 	"fundingUrl": "https://obsidian.md/pricing",
