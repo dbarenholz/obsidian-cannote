@@ -1,5 +1,5 @@
 import { normalizePath, Notice } from "obsidian";
-import { createNoteModal } from "./modals/createNoteModal";
+import { createNoteModal } from "./modals/CreateNoteModal";
 import { Note } from "./interfaces/Note";
 import { EXTENSION_TYPE_NOTES } from "./constants";
 
