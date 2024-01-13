@@ -1,11 +1,12 @@
 import { normalizePath, Notice } from "obsidian";
 import { createNoteModal } from "./modals/CreateNoteModal";
 import { Note } from "./interfaces/Note";
+import { EXTENSION_TYPE_NOTES } from "./constants";
 
 export async function createNote(filePath: string) {
 
     new createNoteModal(this.app, async (title, type, orientation) => {
-       filePath = filePath.concat(`${title}`, ".pdfnotes")
+       filePath = filePath.concat(`${title}`, ".", EXTENSION_TYPE_NOTES)
 
         const note : Note = {
             orientation: orientation,

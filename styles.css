@@ -1,27 +1,14 @@
-/*
-
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
-
-If your plugin does not need CSS, delete this file.
-
-
-*/
-
 .note-canvas {
-    border: 1px solid black;
-    margin: 10px;
-    padding: 10px;
-    text-align: center;
-    justify-content: center;
+    border: 1px solid black;;
 }
 
 .toolbar {
     display: flex;
     flex-direction: row;
     justify-content: center;
-}
+}  
 
 .item {
-    margin: 0 10px; /* Adjust the margin as needed */
+    margin: 0 10px;
+    padding-bottom: 10px;
 }

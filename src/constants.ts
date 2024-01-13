@@ -1,0 +1,1 @@
+export const EXTENSION_TYPE_NOTES = "cannote";

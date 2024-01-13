@@ -1,5 +1,6 @@
 import { normalizePath, Plugin, TFile, TFolder, WorkspaceLeaf } from 'obsidian';
 import { drawCanvas, readNoteFile } from 'src/DrawingCanvas';
+import { EXTENSION_TYPE_NOTES } from 'src/constants';
 import { createNote, replaceLastSegment } from 'src/utils';
 import { NotesView, VIEW_TYPE_NOTES } from 'src/views/NotesView';
 
@@ -13,9 +14,9 @@ export default class PDFNotes extends Plugin {
 			(leaf) => new NotesView(leaf),
 		);
 
-		this.registerExtensions(["pdfnotes"], VIEW_TYPE_NOTES);
+		this.registerExtensions([EXTENSION_TYPE_NOTES], VIEW_TYPE_NOTES);
 
-		this.addRibbonIcon('file', 'Create new PDF', () => {
+		this.addRibbonIcon('file', 'Create new Drawing', () => {
 
 			const curretFile = this.app.workspace.getActiveFile();
 			if(curretFile != null) {
@@ -36,26 +37,11 @@ export default class PDFNotes extends Plugin {
 						createNote(file.path);
 					});
 				});
-			} 
-
-			if(file instanceof TFile) {
-
-				if(file.extension == 'pdfnotes') {
-					menu.addItem((item) => {
-						item.setTitle("Edit Drawing");
-						item.setSection("Notes");
-						item.setIcon("pen")
-						item.onClick(async () => {
-							//Creates new PDF-File
-							console.log('Edit a drawing in folder:', file.path);
-						});
-					});
-				}
 			}
 		});
 
 		this.app.workspace.on("file-open", async (file)  => {
-			if(file != null && file.extension == "pdfnotes") {
+			if(file != null && file.extension == EXTENSION_TYPE_NOTES) {
 				this.activateView();	
 
 				const view = this.app.workspace.getLeavesOfType(VIEW_TYPE_NOTES)[0];

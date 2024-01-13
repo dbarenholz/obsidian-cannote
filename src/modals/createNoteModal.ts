@@ -14,7 +14,7 @@ export class createNoteModal extends Modal {
     onOpen() {
         const { contentEl } = this;
     
-        contentEl.createEl("h1", { text: "Create new PDF-File" });
+        contentEl.createEl("h1", { text: "Create new Drawing" });
     
         new Setting(contentEl)
           .setName("Title:")

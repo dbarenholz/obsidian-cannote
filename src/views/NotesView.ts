@@ -1,6 +1,4 @@
 import { FileView, TFile, WorkspaceLeaf } from "obsidian";
-import { createElement, readNoteFile } from "src/DrawingCanvas";
-import { NoteElement } from "src/interfaces/NoteElement";
 import { handleMouseDown, handleMouseMove, handleMouseUp, handleResetCanvas } from "src/DrawingCanvas";
 
 export const VIEW_TYPE_NOTES = "notes-view";
@@ -55,18 +53,21 @@ export class NotesView extends FileView {
                 }
             })
 
-            lineDiv.createEl("input", {
+            const line = lineDiv.createEl("input", {
                 type: "radio",
                 cls: "line-input",
                 value: "line-input",
                 attr: {
                     id: "line-input",
-                    name: "select-tool"
+                    name: "select-tool",
                 }
-            })
+            })           
 
             lineDiv.createEl("label", {
                 text: "Line",
+                attr: {
+                    for: "line-input"
+                }
             });
 
             const rectangleDiv = toolbarDiv.createDiv({
@@ -76,7 +77,7 @@ export class NotesView extends FileView {
                 }
             })
 
-            rectangleDiv.createEl("input", {
+            const rectangle = rectangleDiv.createEl("input", {
                 type: "radio",
                 cls: "rectangle-input",
                 value: "rectangle-input",
@@ -88,16 +89,19 @@ export class NotesView extends FileView {
 
             rectangleDiv.createEl("label", {
                 text: "Rectangle",
+                attr: {
+                    for: "rectangle-input"
+                }
             });
 
-            const pencilDvi = toolbarDiv.createDiv({
+            const pencilDiv = toolbarDiv.createDiv({
                 cls: "item",
                 attr: {
                     id: "pencil"
                 }
             })
 
-            pencilDvi.createEl("input", {
+            const pencil = pencilDiv.createEl("input", {
                 type: "radio",
                 cls: "pencil-input",
                 value: "pencil-input",
@@ -107,8 +111,11 @@ export class NotesView extends FileView {
                 }
             })
 
-            pencilDvi.createEl("label", {
+            pencilDiv.createEl("label", {
                 text: "Pencil",
+                attr: {
+                    for: "pencil-input"
+                }
             });
 
             const resetCanvasButton = toolbarDiv.createEl("button", {
@@ -121,7 +128,11 @@ export class NotesView extends FileView {
 
             resetCanvasButton.addEventListener("click", resetCanvas)
     
-            const canvas = container.createEl("canvas", {
+            const canvasDiv = container.createDiv({
+                cls: "canvas-div"
+            });
+
+            const canvas = canvasDiv.createEl("canvas", {
                 cls: "note-canvas", 
                 attr: {
                     id: "note-canvas",
@@ -129,6 +140,9 @@ export class NotesView extends FileView {
                     height: 800,
                 },
             });
+
+            canvas.width = 794;
+            canvas.height =  1123;
 
             canvas.addEventListener('mousedown', mouseDown)
             canvas.addEventListener('mousemove', mouseMove)

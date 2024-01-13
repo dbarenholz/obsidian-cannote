@@ -3,6 +3,7 @@ import { NoteElement } from "./interfaces/NoteElement";
 import { Note } from "./interfaces/Note";
 
 const generator = rough.generator();
+
 var drawing : boolean = false;
 var colorInput : HTMLInputElement | null = null;
 
@@ -21,20 +22,34 @@ export async function drawCanvas() {
 
     colorInput = document.getElementById("color-input") as HTMLInputElement;
 
-    if (context) {
-        const roughCanvas = rough.canvas(canvas);
+    const { x: xOffset, y: yOffset} = canvas.getBoundingClientRect();
 
-        note.elements.forEach((element) => roughCanvas.draw(element.canvasElement));
+    if (context) {
+        const roughCanvas = rough.canvas(canvas);        
+        note.elements.forEach( (element) => {
+
+            const x1 = element.x1 - xOffset;
+            const y1 = element.y1 - yOffset;
+            const x2 = element.x2 - xOffset;
+            const y2 = element.y2 - yOffset;
+
+            //update the elements
+            switch(element.canvasElement.shape) {
+                case "line" : {
+                    roughCanvas.line(x1, y1, x2, y2);
+                }
+            }
+        })
 
         await modifiyNoteFile();
 
     } else {
         console.error("Unable to get 2D context for canvas");
-    }
-    
+    }  
 }
 
 export function createElement(x1: number, y1: number, x2: number, y2: number) : NoteElement {
+    // TODO: check radio button which shape should be drawn
 
     const canvasElement = generator.line(x1, y1, x2, y2, {
         stroke: colorInput == null ? "#000000" : colorInput.value,
@@ -48,6 +63,7 @@ export async function readNoteFile() {
     const activeFile = await this.app.workspace.getActiveFile();
     const loadedNote : Note = await JSON.parse(await this.app.vault.read(activeFile));
     note = loadedNote;
+
     await drawCanvas()
 }
 
@@ -60,6 +76,7 @@ export async function modifiyNoteFile() {
 export async function clearNoteFile() {
     note.elements = [];
     await modifiyNoteFile();
+
     await drawCanvas();
 }
 
