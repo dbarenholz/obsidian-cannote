@@ -20,10 +20,14 @@ export class NotesView extends FileView {
     }
 
     async onOpen() { 
-        
         this.app.workspace.onLayoutReady(() => {
+			console.log(`[NotesView] onOpen() - layout ready`)
+
             const container = this.containerEl.children[1];
+
             container.empty();
+
+			// Create many extra elements
 
             const toolbarDiv = container.createDiv({
                 cls: "toolbar",
@@ -90,14 +94,14 @@ export class NotesView extends FileView {
                 text: "Rectangle",
             });
 
-            const pencilDvi = toolbarDiv.createDiv({
+            const pencilDiv = toolbarDiv.createDiv({
                 cls: "pencil",
                 attr: {
                     id: "pencil"
                 }
             })
 
-            pencilDvi.createEl("input", {
+            pencilDiv.createEl("input", {
                 type: "radio",
                 cls: "pencil-input",
                 value: "pencil-input",
@@ -107,7 +111,7 @@ export class NotesView extends FileView {
                 }
             })
 
-            pencilDvi.createEl("label", {
+            pencilDiv.createEl("label", {
                 text: "Pencil",
             });
 
@@ -118,6 +122,8 @@ export class NotesView extends FileView {
                     id: "note-canvas",
                 }
             });
+			console.log(canvas)
+			console.log(canvas.getBoundingClientRect())
     
             canvas.width = 900;
             canvas.height = 900;
@@ -129,7 +135,7 @@ export class NotesView extends FileView {
     }
 
     async onClose() {
-       
+		console.log(`[NotesView] onClose()`)
     }
           
 }
