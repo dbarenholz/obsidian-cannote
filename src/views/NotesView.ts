@@ -1,5 +1,5 @@
 import { FileView, TFile, WorkspaceLeaf } from "obsidian";
-import { handleMouseDown, handleMouseMove, handleMouseUp, handleResetCanvas } from "src/drawing/DrawingApp";
+import { handleInputChange, handleMouseDown, handleMouseMove, handleMouseUp, handleResetCanvas } from "src/drawing/DrawingApp";
 
 export const VIEW_TYPE_NOTES = "notes-view";
 
@@ -33,7 +33,7 @@ export class NotesView extends FileView {
             const colorDiv = toolbarDiv.createDiv({
                 cls: "item",
                 attr: {
-                    id: "color"
+                    id: "color",
                 }
             })
             
@@ -42,7 +42,8 @@ export class NotesView extends FileView {
                 cls: "color-input",
                 value: "#000000",
                 attr: {
-                    id: "color-input"
+                    id: "color-input",
+                    name: "color-selection"
                 },
             })
 
@@ -56,7 +57,7 @@ export class NotesView extends FileView {
             const line = lineDiv.createEl("input", {
                 type: "radio",
                 cls: "line-input",
-                value: "line-input",
+                value: "line",
                 attr: {
                     id: "line-input",
                     name: "select-tool",
@@ -81,9 +82,9 @@ export class NotesView extends FileView {
             const rectangle = rectangleDiv.createEl("input", {
                 type: "radio",
                 cls: "rectangle-input",
-                value: "rectangle-input",
+                value: "rectangle",
                 attr: {
-                    id: "rectangle-input",
+                    id: "rectangle",
                     name: "select-tool"
                 }
             })
@@ -105,7 +106,7 @@ export class NotesView extends FileView {
             const pencil = pencilDiv.createEl("input", {
                 type: "radio",
                 cls: "pencil-input",
-                value: "pencil-input",
+                value: "pencil",
                 attr: {
                     id: "pencil-input",
                     name: "select-tool"
@@ -148,6 +149,8 @@ export class NotesView extends FileView {
             canvas.addEventListener('mousedown', mouseDown)
             canvas.addEventListener('mousemove', mouseMove)
             canvas.addEventListener('mouseup', mouseUp)
+
+            document.addEventListener("input", inputChange);
         })
     }
 
@@ -173,4 +176,8 @@ function mouseUp (event : MouseEvent) {
 
 function resetCanvas (event : MouseEvent) {
     handleResetCanvas(event);
+}
+
+function inputChange (event : MouseEvent) {
+    handleInputChange(event);
 }

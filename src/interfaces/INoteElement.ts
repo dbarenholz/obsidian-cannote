@@ -18,6 +18,7 @@ export interface INoteElement {
     point2: IPoint
     offsetPoint: IPoint
     shapeElement: Drawable;
+    color: string,
     seed: number;
     pageNum: number
 }
