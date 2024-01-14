@@ -1,5 +1,5 @@
 import { FileView, TFile, WorkspaceLeaf } from "obsidian";
-import { handleMouseDown, handleMouseMove, handleMouseUp, handleResetCanvas } from "src/DrawingCanvas";
+import { handleMouseDown, handleMouseMove, handleMouseUp, handleResetCanvas } from "src/drawing/DrawingApp";
 
 export const VIEW_TYPE_NOTES = "notes-view";
 
@@ -60,8 +60,9 @@ export class NotesView extends FileView {
                 attr: {
                     id: "line-input",
                     name: "select-tool",
+                    checked: true
                 }
-            })           
+            })  
 
             lineDiv.createEl("label", {
                 text: "Line",

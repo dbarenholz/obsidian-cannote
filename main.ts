@@ -1,5 +1,5 @@
 import { normalizePath, Plugin, TFile, TFolder, WorkspaceLeaf } from 'obsidian';
-import { drawCanvas, readNoteFile } from 'src/DrawingCanvas';
+import { initCanvas } from 'src/drawing/DrawingApp';
 import { EXTENSION_TYPE_NOTES } from 'src/constants';
 import { createNote, replaceLastSegment } from 'src/utils';
 import { NotesView, VIEW_TYPE_NOTES } from 'src/views/NotesView';
@@ -46,12 +46,10 @@ export default class PDFNotes extends Plugin {
 
 				const view = this.app.workspace.getLeavesOfType(VIEW_TYPE_NOTES)[0];
 				if (view != null) {
-					await readNoteFile();
-					await drawCanvas();
+					await initCanvas();
 				}
 			}
 		})
-
 	}
 
 	

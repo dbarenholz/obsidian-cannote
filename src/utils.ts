@@ -1,6 +1,6 @@
 import { normalizePath, Notice } from "obsidian";
 import { createNoteModal } from "./modals/CreateNoteModal";
-import { Note } from "./interfaces/Note";
+import { INote } from "./interfaces/INote";
 import { EXTENSION_TYPE_NOTES } from "./constants";
 
 export async function createNote(filePath: string) {
@@ -8,7 +8,7 @@ export async function createNote(filePath: string) {
     new createNoteModal(this.app, async (title, type, orientation) => {
        filePath = filePath.concat(`${title}`, ".", EXTENSION_TYPE_NOTES)
 
-        const note : Note = {
+        const note : INote = {
             orientation: orientation,
             type: type,
             countPage: 1,
@@ -24,21 +24,6 @@ export async function createNote(filePath: string) {
         }
     }).open();
 }
-
-export async function encodeBinary(data: any): Promise<ArrayBuffer> {
-    const jsonString = JSON.stringify(data);
-    const encoder = new TextEncoder();
-    const binaryData = encoder.encode(jsonString).buffer;
-    return binaryData;
-}
-
-export async function decodeBinary(binaryData: ArrayBuffer): Promise<any> {
-    const decoder = new TextDecoder('utf-8');
-    const jsonString = decoder.decode(binaryData);
-    const jsonData = JSON.parse(jsonString);
-    return jsonData;
-}
-
 
 export function replaceLastSegment(inputString: string) {
     const regex = /[^/]+$/;

@@ -2,9 +2,9 @@ import { App, Notice, Modal, Setting } from "obsidian";
 
 export class createNoteModal extends Modal {
     title: string;
-    type: string;
     orientation: string;
-    onSubmit: (title: string, type: string, orientation: string) => void;
+    type: string;
+    onSubmit: (title: string, orientation: string, type: string) => void;
 
     constructor(app: App, onSubmit: (title: string, type: string, orientation: string) => void) {
         super(app);
