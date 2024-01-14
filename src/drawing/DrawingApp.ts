@@ -110,23 +110,15 @@ export async function handleResetCanvas(event: MouseEvent) {
 }
 
 function calculateOffset(element: INoteElement): { finalPoint1: IPoint; finalPoint2: IPoint } {
-    const {left : xOffset, top: yOffset} = canvas.getBoundingClientRect();
-
-    //Somehow not working
-
-    const calculateOffset = {
-        x: Math.abs(element.offsetPoint.x - xOffset) + element.offsetPoint.x,
-        y: Math.abs(element.offsetPoint.y - yOffset) + element.offsetPoint.y
-    }
 
     const finalPoint1 = {
-        x: element.point1.x - calculateOffset.x,
-        y: element.point1.y - calculateOffset.y
+        x: element.point1.x - element.offsetPoint.x,
+        y: element.point1.y - element.offsetPoint.y
     }
 
     const finalPoint2 = {
-        x: element.point2.x - calculateOffset.x,
-        y: element.point2.y - calculateOffset.y
+        x: element.point2.x - element.offsetPoint.x,
+        y: element.point2.y - element.offsetPoint.y
     }
 
     return {finalPoint1, finalPoint2}
